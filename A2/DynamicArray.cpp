@@ -43,16 +43,16 @@ public:
 			    temp[i] = elements[i];
 			}
 			capacity = capacity * 2;		// double capacity
-			delete [] elements;				// kill previous array
+			delete [] elements;			// kill previous array
 			elements = new T[capacity];		// create new array
 			for(int i=0; i<size; i++){ 		// populate it
 			    elements[i] = temp[i];
 			}
-			delete [] temp;					// kill temp				// update capacity;
+			delete [] temp;				// kill temp
 		}	
-		elements[currentPosition] = item; 	// add item
-		currentPosition++;					// increment position
-		size++;								// increment size
+		elements[currentPosition] = item; 		// add item
+		currentPosition++;				// increment position
+		size++;						// increment size
 	}
 
 	/*! 
@@ -167,7 +167,7 @@ class DynamicArrayIterator{
 private:
 	int currentPosition;
 	DynamicArray<T>* array;
-	int direction; 							// 1: FORWARD ; -1: BACKWARDS
+	int direction; 					// 1: FORWARD ; -1: BACKWARDS
 
 public:
 	/*!  
@@ -201,7 +201,7 @@ public:
 		@return void returns void in order to avoid dealing w/ pre and postfix
 	*/
 	void operator++ (){
-		if (direction == 1){ 				// move forward
+		if (direction == 1){ 			// move forward
 			if (currentPosition == (*array).size){
 				cout << "Index out of bounds" << endl; 
 			}else{
