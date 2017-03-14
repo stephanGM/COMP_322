@@ -1,0 +1,95 @@
+
+======================================
+++++++++++++++++++++++++++++++++++++++
++               Memory               +
+======================================
+++++++++++++++++++++++++++++++++++++++
+
+
+======================================
++             Question 1             +
+======================================
+
+When the program executes it will output “not equal”.
+
+Both ‘&a’ and ‘b’ are addresses which hold the value of ‘x’ (3 in this case), however they are not the same address.
+
+This is because by default, arguments in C++ are passed by value. When an argument is passed by value, the argument's value is copied into the function's parameter.
+
+Therefore, by calling ‘test1(x, &x);’ we store ‘x’ in a new location.
+
+By explicitly passing the address/reference (‘&x’) and not the value, we reference the same ‘x’ in memory as the main function.
+
+======================================
++             Question 2             +
+======================================
+
+When the program executes it will output “equal”.
+
+This is because both ‘func1()’ and ‘func2()’ are returning the address of the first place on the stack.
+
+As the program executes sequentially, it associates ‘x’ with the first stack space when running ‘func1()’, frees this space when 'func1()' terminates, and then uses it again when running ‘func2()’.
+
+======================================
++             Question 3             +
+======================================
+
+Here the pointer q has as it's value the address of the pointer p. 
+
+'p' allocated space on the heap to store the value '5' using 'new int(5)'. Whereas 'q' stores as its value the adress which points '5'.
+
+Because of this, 'q' cannot be deleted as it was never allocated the heap using the 'new' command. 
+
+Therefore, the code will fail to compile when the line 'delete q;' is reached as it tries to free memory on the heap that was not placed there to begin with.
+
+A segfault is due to a reference to a variable outside of the segment where that variable resides. As such, looking for 'q' on the heap when it is not in fact there, can be considered a segfault.
+
+Furthermore, because we do not "NULL" the pointer after deletion, we run the risk of crashing on a double delete (more on this in Question 4).
+
+This is not good memory management.
+
+On a related note, storing addresses as int values can be problematic. For example, on an x86-64 architecture, a pointer is 64 bits long, but an int is only 32 bits. This could truncate the address, rendering it useless and possibly dangerous.
+
+Also, at no point is the memory block with '5' stored in it reset, not that this is necessary. 
+
+======================================
++             Question 4             +
+======================================
+
+Setting 'p' to 'NULL' sets its value to 0. Doing this after deletion is good memory management so the program does not run the risk of crashing on a double delete.
+
+As 'q' is never allocated on the heap, we do not need to worry about deleting it. However, as explained in Question 3, storing an address as an int value can be problematic.
+
+As such, I will say this is memory management is better than Question 3, but still sketchy at best.
+
+As in Question 3, the memory block storing '5' is never set to '0'. This seems more worth mentioning here so as not to confuse the function of 'p = NULL;'.
+
+======================================
++             Question 5             +
+======================================
+
+Nothing will print when 'the value of the variable x is printed' because the program will abort before it reaches this statement if the entered name is '12345678910'. 
+
+This is because we are attempting to store 11 characters in a space that has only allocated space for 9.
+
+While the initilization clearly states that the size allocation should be 10 (char name[10];), the last char is actually the null terminator '\0'. 
+
+Were a suitable character length name ('name') to be entered, the printout would be:
+
+name
+0 
+
+======================================
++                 End                +
+======================================
+
+
+
+
+
+
+
+
+
+
+
