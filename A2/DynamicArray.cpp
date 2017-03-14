@@ -11,7 +11,6 @@
 
 #include <iostream>
 #include <stdlib.h>
-using namespace std;
 
 #define BACKEND_SIZE 10 
 
@@ -24,9 +23,9 @@ template <class T> class DynamicArray;
 template <class T>
 class DynamicArray{
 private:
-	T *elements;
-	unsigned int currentPosition;
-	unsigned int capacity;
+	T *elements_;
+	unsigned int currentPosition_;
+	unsigned int capacity_;
 
 public:
 	unsigned int size;
@@ -37,22 +36,22 @@ public:
 		@param T item is the item to be added to the array
 	*/
 	void add(T item){
-		if (size == capacity){ 				// capacity is full, double size
+		if (size == capacity_){ 			// capacity is full, double size
 			T *temp = new T[size];
 			for(int i=0; i<size; i++){ 		// temp store values
-			    temp[i] = elements[i];
+			    temp[i] = elements_[i];
 			}
-			capacity = capacity * 2;		// double capacity
-			delete [] elements;			// kill previous array
-			elements = new T[capacity];		// create new array
+			capacity_ = capacity_ * 2;		// double capacity
+			delete [] elements_;			// kill previous array
+			elements_ = new T[capacity_];	// create new array
 			for(int i=0; i<size; i++){ 		// populate it
-			    elements[i] = temp[i];
+			    elements_[i] = temp[i];
 			}
-			delete [] temp;				// kill temp
+			delete [] temp;					// kill temp
 		}	
-		elements[currentPosition] = item; 		// add item
-		currentPosition++;				// increment position
-		size++;						// increment size
+		elements_[currentPosition_] = item; // add item
+		currentPosition_++;					// increment position
+		size++;								// increment size
 	}
 
 	/*! 
@@ -60,9 +59,9 @@ public:
 		@param int i position at which an item is to be removed from elements
 	*/
 	T remove(int i){
-		T removed = elements[i];
+		T removed = elements_[i];
 		while(i < size){
-			elements [i] = elements [i + 1];
+			elements_[i] = elements_[i + 1];
 			i++;
 		}
 		size = size - 1;
@@ -76,10 +75,10 @@ public:
 	*/
 	T& operator[](size_t i){ 
 		if( i >= size ) {
-           cout << "Index out of bounds" << endl; 
-           return elements[0];	 			// return first element.
-         }
-		return elements[i]; 
+			std::cout << "Index out of bounds" << std::endl; 
+			return elements_[0];	 			// return first element.
+        }
+		return elements_[i]; 
 	}
 
 	/*! 
@@ -89,10 +88,10 @@ public:
 	*/
 	const T operator[](size_t i) const{ 
 		if( i >= size ) {
-           cout << "Index out of bounds" << endl; 
-           return elements[0];	 			// return first element.
-         }
-		return elements[i]; 
+			std::cout << "Index out of bounds" << std::endl; 
+			return elements_[0];	 			// return first element.
+        }
+		return elements_[i]; 
 	}
 
 
@@ -140,20 +139,20 @@ public:
 		Constructor for DynamicArray. 
 	*/
 	DynamicArray(){
-		elements = new T[BACKEND_SIZE];	
+		elements_ = new T[BACKEND_SIZE];	
 		size = 0;	
-		capacity = BACKEND_SIZE;			
-		currentPosition = 0;
+		capacity_ = BACKEND_SIZE;			
+		currentPosition_ = 0;
 	}
 
 	/*! 
 		Destructor for DynamicArray. 
 	*/
 	~DynamicArray() {
-		delete [] elements; 
+		delete [] elements_; 
 		size = 0;
-		capacity = 0;
-		currentPosition = 0;
+		capacity_ = 0;
+		currentPosition_ = 0;
 	}
 
 };
@@ -165,9 +164,9 @@ public:
 template <class T> 
 class DynamicArrayIterator{
 private:
-	int currentPosition;
-	DynamicArray<T>* array;
-	int direction; 					// 1: FORWARD ; -1: BACKWARDS
+	int currentPosition_;
+	DynamicArray<T>* array_;
+	int direction_; 					// 1: FORWARD ; -1: BACKWARDS
 
 public:
 	/*!  
@@ -178,11 +177,11 @@ public:
 	*/
 	DynamicArrayIterator(DynamicArray<T> *arr, int pos, int dir){	
 		if (dir != 1 && dir != -1){
-			cout << "Invalid direction" << endl;
+			std::cout << "Invalid direction" << std::endl;
 		}
-		currentPosition = pos;
-		array = arr;
-		direction = dir;
+		currentPosition_ = pos;
+		array_ = arr;
+		direction_ = dir;
 	}
 
 	/*!  
@@ -191,7 +190,7 @@ public:
 		@return (*array)[currentPosition] is data from DynamicArray at currentPosition
 	*/
 	T& operator* (){
-		return (*array)[currentPosition];
+		return (*array_)[currentPosition_];
 
 	}
 	
@@ -201,17 +200,17 @@ public:
 		@return void returns void in order to avoid dealing w/ pre and postfix
 	*/
 	void operator++ (){
-		if (direction == 1){ 			// move forward
-			if (currentPosition == (*array).size){
-				cout << "Index out of bounds" << endl; 
+		if (direction_ == 1){ 			// move forward
+			if (currentPosition_ == (*array_).size){
+				std::cout << "Index out of bounds" << std::endl; 
 			}else{
-				currentPosition++;
+				currentPosition_++;
 			}
-		}else if (direction == -1){ 		// move backwards
-			if (currentPosition < 0){
-				cout << "Index out of bounds" << endl; 
+		}else if (direction_ == -1){ 		// move backwards
+			if (currentPosition_ < 0){
+				std::cout << "Index out of bounds" << std::endl; 
 			}else{
-				currentPosition--;
+				currentPosition_--;
 			}
 		}
 	}
@@ -226,17 +225,17 @@ public:
 	*/
 	bool operator == (const DynamicArrayIterator& compare){
 		// check to see if content of elements is the same
-		for (int i = 0; i < (*array).size; i++){	
-			if ((*array)[i] != (*compare.array)[i]){
+		for (int i = 0; i < (*array_).size; i++){	
+			if ((*array_)[i] != (*compare.array_)[i]){
 				return false;
 			}
 		}
 		// check to see if they both have the same current position
-		if (currentPosition != compare.currentPosition){
+		if (currentPosition_ != compare.currentPosition_){
 			return false;
 		}
 		// check to see if they both have the same direction
-		if (direction != compare.direction){
+		if (direction_ != compare.direction_){
 			return false;
 		}
 		// checks have passed
@@ -259,20 +258,20 @@ public:
 
 
 /*!
-	Main function to test functionality of DynamicArray
+	Main function to test functionality of DynamicArray and DynamicArrayIterator
  */
 int main(){
 	DynamicArray<int> foo;
 	foo.add(3);
 	foo.add(2);
-	cout << foo[1] << endl;
+	std::cout << foo[1] << std::endl;
 	foo[1] = 10;
-	cout << foo[1] << endl;
+	std::cout << foo[1] << std::endl;
 	for(DynamicArrayIterator<int> a = foo.begin(); a != foo.end(); ++a) {
-		cout << *a << endl;
+		std::cout << *a << std::endl;
 	}
 	for(DynamicArrayIterator<int> a = foo.r_begin(); a != foo.r_end(); ++a) {
-	    cout << *a << endl;
+	    std::cout << *a << std::endl;
 	}
 
 }
