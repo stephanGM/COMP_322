@@ -39,12 +39,12 @@ int* generateArray(){
 void sortWithStandardFunction(int* p, int length, std::function<bool(int,int)> compFunction){
 	
 	int temp;
-	int sorted = 0; 							// flag indicating sorted array
+	int sorted = 0; 					// flag indicating sorted array
 	while (sorted == 0){
 		sorted = 1;
 		for(int i = 0; i < length-1; i++){ 		// run through array
 			if (compFunction(p[i+1],p[i])){ 	// call function to compare
-				temp = p[i];					// swap when required
+				temp = p[i];			// swap when required
 				p[i] = p[i+1];
 				p[i+1] = temp;
 				sorted = 0;
@@ -55,7 +55,7 @@ void sortWithStandardFunction(int* p, int length, std::function<bool(int,int)> c
 }
 
 /*!
-	generateNearestTo is will compare two numbers to see which one is closest to center
+	generateNearestTo will compare two numbers to see which one is closest to center
 	@param center number to be compared to
 	@param int a value to be compared with center
 	@param int b value to be compared with center
@@ -173,12 +173,12 @@ class IsClosestToComparer : public IComparer{
  */
 void sortWithInterface(int* p, int length, IComparer* comp){
 	int temp;
-	int sorted = 0; 							// flag indicating sorted array
+	int sorted = 0; 					// flag indicating sorted array
 	while (sorted == 0){
 		sorted = 1;
 		for(int i = 0; i < length-1; i++){ 		// run through array
 			if (comp->isBefore(p[i+1],p[i])){ 	// call interface to compare
-				temp = p[i];					// swap when required
+				temp = p[i];			// swap when required
 				p[i] = p[i+1];
 				p[i+1] = temp;
 				sorted = 0;
@@ -243,12 +243,12 @@ void testSortInterface(){
  */
 void sortWithPointers(int* p, int length, bool(*compFunction)(int,int)){
 	int temp;
-	int sorted = 0; 							// flag indicating sorted array
+	int sorted = 0; 					// flag indicating sorted array
 	while (sorted == 0){
 		sorted = 1;
 		for(int i = 0; i < length-1; i++){ 		// run through array
 			if (compFunction(p[i+1],p[i])){ 	// call compFunction to compare
-				temp = p[i];					// swap when required
+				temp = p[i];			// swap when required
 				p[i] = p[i+1];
 				p[i+1] = temp;
 				sorted = 0;
